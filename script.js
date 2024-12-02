@@ -2,43 +2,69 @@
 document.getElementById("login-form").addEventListener("submit", function(event) {
     event.preventDefault(); // Mencegah form submit biasa
 
-    // Ambil username yang diinputkan
     const username = document.getElementById("username").value;
+    const selectedPackage = document.getElementById("package").value;
 
-    // Validasi input username
-    if (username.trim() !== "") {
-        // Menyembunyikan form login dan menampilkan halaman kuis
-        document.getElementById("login-container").style.display = "none";
-        document.getElementById("quiz-container").style.display = "block"; // Pastikan ini benar-benar menampilkan kuis
-
-        // Proses username lebih lanjut (misalnya menyimpan di sessionStorage atau localStorage)
+    if (username.trim() !== "" && selectedPackage) {
+        // Simpan informasi username dan paket soal
         console.log("Username:", username);
+        console.log("Paket Soal:", selectedPackage);
 
-        // Memulai timer setelah login dan halaman kuis tampil
+        // Load soal berdasarkan paket
+        loadQuestions(selectedPackage);
+
+        // Tampilkan halaman kuis
+        document.getElementById("login-container").style.display = "none";
+        document.getElementById("quiz-container").style.display = "block";
+
+        // Memulai timer
         startTimer();
 
-        // Memulai kuis (menampilkan soal pertama)
+        // Tampilkan soal pertama
         showQuestion();
     } else {
-        alert("Masukkan username untuk melanjutkan!");
+        alert("Masukkan username dan pilih paket soal untuk melanjutkan!");
     }
 });
 
-let currentQuestion = 0;
-let score = 0;
+// Fungsi untuk memuat soal berdasarkan paket
+function loadQuestions(packageNumber) {
+    // Pilihan soal berdasarkan paket
+    if (packageNumber === "1") {
+        questions = questionsPackage1;
+    } else if (packageNumber === "2") {
+        questions = questionsPackage2;
+    } else if (packageNumber === "3") {
+        questions = questionsPackage3;
+    } else if (packageNumber === "4") {
+        questions = questionsPackage4;
+    } else if (packageNumber === "5") {
+        questions = questionsPackage5;
+    } else if (packageNumber === "hot1") {
+        questions = questionsPackageHOT1;
+    }
+}
 
-// Pastikan Anda memanggil variabel `questions` dari `questions.js` (tidak mendeklarasikan lagi di sini)
+let currentQuestion = 0; // Soal saat ini
+let score = 0; // Skor pengguna
+let userAnswers = []; // Array untuk menyimpan jawaban pengguna
 
 // Fungsi untuk menampilkan pertanyaan
 function showQuestion() {
     const quizContainer = document.getElementById('quiz');
     const question = questions[currentQuestion];
+
+    // Huruf untuk opsi jawaban (A, B, C, D, E)
+    const answerLabels = ['A', 'B', 'C', 'D', 'E'];
+
+    // Generate tampilan soal dengan penomoran otomatis
     quizContainer.innerHTML = `
-        <h2>${question.question}</h2>
+        <h2>Soal ${currentQuestion + 1}: ${question.question}</h2>
         ${question.answers.map((answer, index) => `
             <label>
-                <input type="radio" name="answer" value="${index}">
-                ${answer}
+                <input type="radio" name="answer" value="${index}" 
+                ${userAnswers[currentQuestion] === index ? "checked" : ""}>
+                <strong>${answerLabels[index]}.</strong> ${answer}
             </label><br>
         `).join('')}
     `;
@@ -66,9 +92,11 @@ function nextQuestion() {
         alert("Pilih jawaban terlebih dahulu!");
         return;
     }
-    if (parseInt(selectedAnswer.value) === questions[currentQuestion].correct) {
-        score += 5;
-    }
+
+    // Simpan jawaban pengguna
+    userAnswers[currentQuestion] = parseInt(selectedAnswer.value);
+
+    // Pindah ke soal berikutnya
     currentQuestion++;
     showQuestion();
 }
@@ -83,14 +111,24 @@ function prevQuestion() {
 
 // Fungsi untuk submit kuis
 function submitQuiz() {
-    document.getElementById('results').innerText = `Skor Anda: ${score} dari ${questions.length * 5}`;
-    document.getElementById('quiz').innerHTML = "";
-    document.getElementById('submit').style.display = "none";
-    document.getElementById('prev').style.display = "none";
+    // Hitung skor akhir
+    score = 0;
+    questions.forEach((q, index) => {
+        if (userAnswers[index] === q.correct) {
+            score += 5;
+        }
+    });
+
+    // Sembunyikan halaman kuis dan tampilkan halaman hasil
+    document.getElementById("quiz-container").style.display = "none";
+    document.getElementById("result-container").style.display = "block"; // Tampilkan hasil
+
+    // Tampilkan hasil skor
+    document.getElementById("final-score").innerText = `Skor Anda: ${score} dari ${questions.length * 5}`;
 }
 
 // Timer Script
-let totalTime = 100 * 60; // 100 menit dalam detik
+let totalTime = 90 * 60; // 90 menit dalam detik
 const timerElement = document.getElementById('timer');
 
 // Fungsi untuk memulai timer
@@ -118,6 +156,14 @@ function finishQuiz() {
     document.getElementById("quiz-container").style.display = "none";
     document.getElementById("result-container").style.display = "block"; // Tampilkan hasil
 
+    // Hitung skor akhir
+    score = 0;
+    questions.forEach((q, index) => {
+        if (userAnswers[index] === q.correct) {
+            score += 5;
+        }
+    });
+
     // Tampilkan hasil skor
     document.getElementById("final-score").innerText = `Skor Anda: ${score} dari ${questions.length * 5}`;
 }
@@ -127,8 +173,9 @@ function restartQuiz() {
     // Reset semua data dan tampilkan form login lagi
     currentQuestion = 0;
     score = 0;
-    totalTime = 100 * 60; // Reset timer
-    
+    totalTime = 90 * 60; // Reset timer
+    userAnswers = []; // Reset jawaban pengguna
+
     // Menyembunyikan halaman hasil dan menampilkan halaman login
     document.getElementById("result-container").style.display = "none"; // Sembunyikan halaman hasil
     document.getElementById("quiz-container").style.display = "none"; // Sembunyikan halaman kuis
