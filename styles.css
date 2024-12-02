@@ -251,3 +251,23 @@ footer {
         padding: 10px 20px;
     }
 }
+
+/* Dropdown Paket Soal */
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box;
+    appearance: none; /* Hilangkan gaya bawaan browser */
+    background: #fff url('data:image/svg+xml;base64,<base64-arrow-icon>') no-repeat right 12px center;
+    background-size: 16px;
+}
+
+select:focus {
+    outline: none;
+    border-color: #42a5f5;
+    box-shadow: 0 0 5px rgba(66, 165, 245, 0.5);
+}
