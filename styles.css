@@ -1,0 +1,253 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Login Screen Styles */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #e0e0e0; /* Latar abu-abu gelap sedikit */
+    position: absolute; /* Pastikan login tetap di tengah */
+    top: 0; /* Pastikan berada di bagian atas */
+    left: 0; /* Pastikan berada di sebelah kiri */
+    right: 0; /* Pastikan berada di sebelah kanan */
+    bottom: 0; /* Pastikan berada di bawah */
+}
+
+.login-box {
+    background-color: #ffffff; /* Warna putih lembut */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    border-left: 5px solid #42a5f5; /* Aksen biru */
+}
+
+.login-box h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+    border-bottom: 2px solid #42a5f5; /* Garis bawah aksen biru */
+    padding-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+.login-box input {
+    width: 100%; /* Menjamin input mengisi lebar maksimal */
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* Pastikan padding dan border dihitung dalam lebar elemen */
+    display: inline-block; /* Menjaga input sejajar dengan elemen lainnya */
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    background-color: #42a5f5; /* Aksen biru */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-box button:hover {
+    background-color: #1e88e5; /* Biru gelap saat hover */
+}
+
+
+/* Halaman Kuis */
+.quiz-container {
+    display: none; /* Awalnya disembunyikan */
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #ffffff; /* Warna putih lembut */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #42a5f5; /* Aksen biru */
+    text-align: left;
+}
+
+/* Title */
+h1 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #42a5f5; /* Garis bawah aksen biru */
+    padding-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
+/* Timer Styling */
+.timer-container {
+    position: fixed; /* Timer berada di fixed posisi */
+    top: 20px; /* Jarak dari atas */
+    right: 20px; /* Jarak dari kanan */
+    background-color: #42a5f5; /* Aksen biru */
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Bayangan lembut */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #1e88e5; /* Biru gelap untuk border */
+    z-index: 1000; /* Pastikan timer di atas elemen lainnya */
+}
+
+.timer-container i {
+    margin-right: 10px; /* Memberikan jarak antara icon dan waktu */
+    font-size: 22px; /* Ukuran icon jam */
+}
+
+#timer {
+    font-size: 24px; /* Ukuran teks timer */
+}
+
+/* Question Section */
+.question {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+/* Answers Section */
+.answers {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.answers li {
+    margin-bottom: 30px; /* Menambahkan jarak antar item jawaban */
+}
+
+.answers label {
+    display: block;
+    padding: 15px 20px; /* Menambahkan lebih banyak padding untuk label */
+    background: #f5f5f5; /* Warna abu-abu terang */
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    margin-bottom: 15px; /* Memberikan jarak antar label */
+}
+
+.answers label:hover {
+    background: #e3f2fd; /* Hover biru lembut */
+    border-color: #42a5f5; /* Aksen biru */
+}
+
+.answers input[type="radio"]:checked + label {
+    background: #bbdefb; /* Biru lembut saat dipilih */
+    border-color: #42a5f5;
+    font-weight: bold;
+    color: #1565c0; /* Biru teks gelap */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons */
+button {
+    padding: 12px 25px;
+    margin-top: 20px;
+    background-color: #42a5f5; /* Aksen biru */
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #1e88e5; /* Biru gelap saat hover */
+}
+
+button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+/* Results Section */
+#final-score {
+    margin-top: 20px;
+    font-size: 22px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+    background-color: #e3f2fd;
+    border-radius: 5px;
+    border: 2px solid #42a5f5;
+    margin-bottom: 30px;
+}
+
+/* Results Page */
+#result-container {
+    display: none; /* Awalnya disembunyikan */
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #ffffff; /* Warna putih lembut */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-left: 5px solid #42a5f5; /* Aksen biru */
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    text-align: left;
+    margin-top: 30px;
+    font-size: 14px;
+    color: #666;
+    border-top: 1px solid #ddd;
+    padding-top: 10px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .login-box, .quiz-container, #result-container {
+        width: 90%;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    h1, h2 {
+        font-size: 20px;
+    }
+
+    .timer-container {
+        font-size: 14px;
+        padding: 8px 12px;
+    }
+
+    .answers label {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+}
