@@ -10,15 +10,24 @@
 </head>
 <body>
     <!-- Form Login -->
-    <div id="login-container" class="login-container">
-        <div class="login-box">
-            <h2>Login</h2>
-            <form id="login-form">
-                <input type="text" id="username" placeholder="Username" required>
-                <button type="submit">Masuk</button>
-            </form>
-        </div>
-    </div>
+<div id="login-container" class="login-container">
+    <div class="login-box">
+    <h2>Login</h2>
+    <form id="login-form">
+        <input type="text" id="username" placeholder="username" required>
+        <select id="package" required>
+            <option value="" disabled selected>Pilih Paket Soal</option>
+            <option value="1">Paket 1</option>
+            <option value="2">Paket 2</option>
+            <option value="3">Paket 3</option>
+	    <option value="4">Paket 4</option>
+	    <option value="5">Paket 5</option>
+	    <option value="hot1">Paket HOT 1</option>
+        </select>
+        <button type="submit">Masuk</button>
+    </form>
+</div>
+</div>
 
     <!-- Halaman Kuis (disembunyikan hingga login) -->
     <div id="quiz-container" class="quiz-container" style="display: none;">
@@ -31,7 +40,7 @@
 
         <!-- Timer -->
         <div class="timer-container">
-            <i class="fas fa-clock"></i> <span id="timer">100:00</span>
+            <i class="fas fa-clock"></i> <span id="timer">90:00</span>
         </div>
     </div>
 
