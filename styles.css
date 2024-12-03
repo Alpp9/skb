@@ -235,7 +235,7 @@ footer {
     }
 
     .login-container {
-        background-width: 80%; 
+        background-size: auto;
     }
 
     h1, h2 {
