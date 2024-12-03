@@ -2,10 +2,16 @@
 document.getElementById("login-form").addEventListener("submit", function(event) {
     event.preventDefault(); // Mencegah form submit biasa
 
-    const username = document.getElementById("username").value;
-    const selectedPackage = document.getElementById("package").value;
+    const username = document.getElementById("username").value.trim(); // Ambil username
+    const selectedPackage = document.getElementById("package").value; // Ambil paket soal
 
-    if (username.trim() !== "" && selectedPackage) {
+    // Validasi username
+    if (username !== "albar") {
+        alert("Username tidak valid!");
+        return;
+    }
+
+    if (selectedPackage) {
         // Simpan informasi username dan paket soal
         console.log("Username:", username);
         console.log("Paket Soal:", selectedPackage);
@@ -23,9 +29,10 @@ document.getElementById("login-form").addEventListener("submit", function(event)
         // Tampilkan soal pertama
         showQuestion();
     } else {
-        alert("Masukkan username dan pilih paket soal untuk melanjutkan!");
+        alert("Pilih paket soal untuk melanjutkan!");
     }
 });
+
 
 // Fungsi untuk memuat soal berdasarkan paket
 function loadQuestions(packageNumber) {
