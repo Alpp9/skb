@@ -234,6 +234,11 @@ footer {
         box-sizing: border-box;
     }
 
+    .login-container {
+        background-size: contain; /* Gambar menyesuaikan ukuran layar kecil */
+        background-position: center top; /* Fokus pada bagian atas gambar */
+    }
+
     h1, h2 {
         font-size: 20px;
     }
