@@ -232,6 +232,9 @@ function restartQuiz() {
     totalTime = 90 * 60; // Reset timer
     userAnswers = []; // Reset jawaban pengguna
 
+    // Reset form login menggunakan reset()
+    document.getElementById("login-form").reset(); // Reset semua field form
+
     // Menyembunyikan halaman hasil dan menampilkan halaman login
     document.getElementById("result-container").style.display = "none"; // Sembunyikan halaman hasil
     document.getElementById("quiz-container").style.display = "none"; // Sembunyikan halaman kuis
