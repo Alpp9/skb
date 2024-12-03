@@ -202,13 +202,17 @@ const timerElement = document.getElementById('timer');
 
 // Fungsi untuk memulai timer
 function startTimer() {
-    const timerInterval = setInterval(function() {
+    // Deteksi perangkat berdasarkan ukuran layar
+    const isMobile = window.innerWidth <= 768; // HP jika lebar layar <= 768px
+    const interval = isMobile ? 1000 : 1000; // 2 detik di HP, 1 detik di Laptop
+
+    const timerInterval = setInterval(function () {
         const minutes = Math.floor(totalTime / 60);
         const seconds = totalTime % 60;
 
         // Menampilkan timer dengan format menit:detik
         timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
+
         totalTime--;
 
         // Ketika waktu habis
@@ -216,8 +220,9 @@ function startTimer() {
             clearInterval(timerInterval);
             finishQuiz(); // Ganti dengan tampilan hasil
         }
-    }, 1000); // Interval 1000ms (1 detik)
+    }, interval); // Gunakan interval sesuai perangkat
 }
+
 
 // Fungsi untuk memulai ulang kuis
 function restartQuiz() {
