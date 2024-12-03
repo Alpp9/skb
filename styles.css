@@ -234,6 +234,19 @@ footer {
         box-sizing: border-box;
     }
 
+    #question-navigation {
+        grid-template-columns: repeat(5 minmax(40px, 1fr)); /* Maksimal 5 tombol per baris */
+    }
+
+.question-navigation {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: flex-start; /* Mulai dari kiri */
+        overflow-x: scroll; /* Swipe untuk HP */
+        -webkit-overflow-scrolling: touch; /* Efek swipe halus pada iOS */
+        gap: 8px; /* Jarak antar tombol lebih kecil */
+    }
+
     h1, h2 {
         font-size: 20px;
     }
@@ -273,3 +286,66 @@ select:focus {
     border-color: #42a5f5;
     box-shadow: 0 0 5px rgba(66, 165, 245, 0.5);
 }
+
+/* Gaya untuk navigasi soal */
+.question-navigation {
+    display: flex;
+    justify-content: flex-start; /* Mulai dari kiri */
+    flex-wrap: nowrap; /* Tidak membungkus ke bawah */
+    overflow-x: auto; /* Scroll horizontal untuk tombol yang tidak muat */
+    padding: 15px;
+    margin-top: 20px;
+    gap: 10px; /* Jarak antar tombol */
+    scrollbar-width: thin; /* Scrollbar lebih ramping (untuk Firefox) */
+}
+
+.question-btn {
+    background-color: #007bff; /* Warna biru modern */
+    color: white;
+    border: 2px solid #007bff; /* Border dengan warna biru */
+    border-radius: 8px; /* Rounded corners sedikit saja agar tetap terlihat kotak */
+    padding: 8px 12px; /* Ukuran tombol kecil tapi tetap proporsional */
+    margin: 0 6px; /* Jarak antar tombol lebih kecil untuk kerapian */
+    font-size: 14px; /* Ukuran font kecil untuk tombol */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* Transisi halus untuk hover */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Bayangan tombol */
+    min-width: 40px; /* Tetap kotak */
+    height: 40px; /* Tetap kotak */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.question-btn:hover {
+    background-color: #0056b3; /* Warna lebih gelap saat hover */
+    border-color: #0056b3; /* Border warna gelap */
+    transform: translateY(-2px); /* Efek naik sedikit saat hover */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Bayangan lebih besar saat hover */
+}
+
+.question-btn.active {
+    background-color: #28a745; /* Warna hijau untuk tombol aktif */
+    border-color: #28a745; /* Border hijau */
+    transform: scale(1.1); /* Tombol aktif membesar sedikit */
+}
+
+.question-navigation::-webkit-scrollbar {
+    height: 8px; /* Tinggi scrollbar horizontal */
+}
+
+.question-navigation::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.question-navigation::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+.answered {
+    background-color: #28a745; /* Tetap warna hijau untuk tombol yang sudah dijawab */
+    color: white;
+}
+
