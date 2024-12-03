@@ -236,7 +236,6 @@ footer {
 
     .login-container {
         background-size: contain; /* Gambar menyesuaikan ukuran layar kecil */
-        background-position: center; /* Fokus pada bagian atas gambar */
     }
 
     h1, h2 {
