@@ -28,11 +28,13 @@ document.getElementById("login-form").addEventListener("submit", function(event)
 
         // Tampilkan soal pertama
         showQuestion();
+
+        // Buat tombol navigasi soal otomatis
+        createNavigationButtons();
     } else {
         alert("Pilih paket soal untuk melanjutkan!");
     }
 });
-
 
 // Fungsi untuk memuat soal berdasarkan paket
 function loadQuestions(packageNumber) {
@@ -90,7 +92,17 @@ function showQuestion() {
     }
 
     prevButton.style.display = currentQuestion > 0 ? "inline-block" : "none";
+
+    // Tambahkan event listener ke radio input
+    const answerInputs = document.querySelectorAll('input[name="answer"]');
+    answerInputs.forEach(input => {
+        input.addEventListener('change', saveAnswer); // Simpan jawaban otomatis saat berubah
+    });
+
+    // Perbarui status tombol navigasi
+    updateNavigationButtons();
 }
+
 
 // Fungsi untuk navigasi ke soal berikutnya
 function nextQuestion() {
@@ -106,6 +118,7 @@ function nextQuestion() {
     // Pindah ke soal berikutnya
     currentQuestion++;
     showQuestion();
+    updateNavigationButtons(); // Tambahkan ini
 }
 
 // Fungsi untuk navigasi ke soal sebelumnya
@@ -113,6 +126,7 @@ function prevQuestion() {
     if (currentQuestion > 0) {
         currentQuestion--;
         showQuestion();
+        updateNavigationButtons(); // Tambahkan ini
     }
 }
 
@@ -143,6 +157,44 @@ function submitQuiz() {
     document.getElementById("final-score").innerText = `Skor Anda: ${score} dari ${questions.length * 5}`;
 }
 
+// Fungsi untuk membuat tombol navigasi berdasarkan jumlah soal
+function createNavigationButtons() {
+    const questionNavigation = document.getElementById('question-navigation');
+    questionNavigation.innerHTML = ''; // Hapus tombol navigasi sebelumnya
+
+    // Pastikan tombol navigasi dibuat berdasarkan panjang array questions
+    for (let i = 0; i < questions.length; i++) {
+        const button = document.createElement('button');
+        button.className = 'question-btn';
+        button.textContent = i + 1; // Angka soal
+        button.onclick = () => goToQuestion(i); // Navigasi ke soal yang dipilih
+        questionNavigation.appendChild(button);
+    }
+}
+
+
+// Fungsi untuk memperbarui status tombol navigasi
+function updateNavigationButtons() {
+    const buttons = document.querySelectorAll('.question-btn');
+    buttons.forEach((button, index) => {
+        button.classList.remove('active');
+        button.classList.remove('answered');
+
+        if (userAnswers[index] !== undefined) {
+            button.classList.add('answered'); // Tandai soal yang sudah dijawab
+        }
+
+        if (index === currentQuestion) {
+            button.classList.add('active'); // Tandai soal yang sedang ditampilkan
+        }
+    });
+}
+
+function goToQuestion(questionIndex) {
+    currentQuestion = questionIndex;
+    showQuestion();
+    updateNavigationButtons(); // Tambahkan ini
+}
 
 // Timer Script
 let totalTime = 90 * 60; // 90 menit dalam detik
@@ -167,24 +219,6 @@ function startTimer() {
     }, 1000); // Interval 1000ms (1 detik)
 }
 
-// Fungsi untuk menyelesaikan kuis dan menampilkan hasil
-function finishQuiz() {
-    // Sembunyikan halaman kuis dan tampilkan halaman hasil
-    document.getElementById("quiz-container").style.display = "none";
-    document.getElementById("result-container").style.display = "block"; // Tampilkan hasil
-
-    // Hitung skor akhir
-    score = 0;
-    questions.forEach((q, index) => {
-        if (userAnswers[index] === q.correct) {
-            score += 5;
-        }
-    });
-
-    // Tampilkan hasil skor
-    document.getElementById("final-score").innerText = `Skor Anda: ${score} dari ${questions.length * 5}`;
-}
-
 // Fungsi untuk memulai ulang kuis
 function restartQuiz() {
     // Reset semua data dan tampilkan form login lagi
@@ -197,4 +231,39 @@ function restartQuiz() {
     document.getElementById("result-container").style.display = "none"; // Sembunyikan halaman hasil
     document.getElementById("quiz-container").style.display = "none"; // Sembunyikan halaman kuis
     document.getElementById("login-container").style.display = "flex"; // Tampilkan halaman login dengan posisi benar
+}
+
+function saveAnswer() {
+    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    if (selectedAnswer) {
+        userAnswers[currentQuestion] = parseInt(selectedAnswer.value); // Simpan jawaban
+        updateNavigationButtons(); // Perbarui tampilan tombol navigasi
+    }
+}
+
+let startX = 0;
+
+function enableSwipeNavigation() {
+    const questionContainer = document.querySelector('.question-container'); // Container soal
+
+    questionContainer.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX; // Catat posisi awal sentuhan
+    });
+
+    questionContainer.addEventListener('touchmove', (e) => {
+        const deltaX = e.touches[0].clientX - startX;
+
+        if (deltaX > 50) {
+            // Geser ke kanan (soal sebelumnya)
+            goToPreviousQuestion();
+        } else if (deltaX < -50) {
+            // Geser ke kiri (soal berikutnya)
+            goToNextQuestion();
+        }
+    });
+}
+
+// Aktifkan swipe untuk layar kecil
+if (window.innerWidth <= 768) {
+    enableSwipeNavigation();
 }
