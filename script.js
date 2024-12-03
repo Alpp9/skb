@@ -1,274 +1,59 @@
-// Proses Login
-document.getElementById("login-form").addEventListener("submit", function(event) {
-    event.preventDefault(); // Mencegah form submit biasa
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuis SKB</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Link FontAwesome untuk icon jam -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <!-- Form Login -->
+<div id="login-container" class="login-container">
+    <div class="login-box">
+    <h2>Login</h2>
+    <form id="login-form">
+        <input type="text" id="username" placeholder="username" required>
+        <select id="package" required>
+            <option value="" disabled selected>Pilih Paket Soal</option>
+            <option value="1">Paket 1</option>
+            <option value="2">Paket 2</option>
+            <option value="3">Paket 3</option>
+	    <option value="4">Paket 4</option>
+	    <option value="5">Paket 5</option>
+	    <option value="hot1">Paket HOT 1</option>
+        </select>
+        <button type="submit">Mulai Ujian</button>
+    </form>
+</div>
+</div>
 
-    const username = document.getElementById("username").value.trim(); // Ambil username
-    const selectedPackage = document.getElementById("package").value; // Ambil paket soal
+    <!-- Halaman Kuis (disembunyikan hingga login) -->
+    <div id="quiz-container" class="quiz-container" style="display: none;">
+        <h1>Kuis SKB</h1>
+        <div id="quiz"></div>
+        <button id="prev" onclick="prevQuestion()">Sebelumnya</button>
+        <button id="next" onclick="nextQuestion()">Berikutnya</button>
+        <button id="submit" onclick="submitQuiz()" style="display: none;">Selesai</button>
+        <div id="results"></div>
+	<div class="question-navigation" id="question-navigation"></div>
 
-    // Validasi username
-    if (username !== "albar") {
-        alert("Username tidak valid!");
-        return;
-    }
+        <!-- Timer -->
+        <div class="timer-container">
+            <i class="fas fa-clock"></i> <span id="timer">90:00</span>
+        </div>
+    </div>
 
-    if (selectedPackage) {
-        // Simpan informasi username dan paket soal
-        console.log("Username:", username);
-        console.log("Paket Soal:", selectedPackage);
-
-        // Load soal berdasarkan paket
-        loadQuestions(selectedPackage);
-
-        // Tampilkan halaman kuis
-        document.getElementById("login-container").style.display = "none";
-        document.getElementById("quiz-container").style.display = "block";
-
-        // Memulai timer
-        startTimer();
-
-        // Tampilkan soal pertama
-        showQuestion();
-
-        // Buat tombol navigasi soal otomatis
-        createNavigationButtons();
-    } else {
-        alert("Pilih paket soal untuk melanjutkan!");
-    }
-});
-
-// Fungsi untuk memuat soal berdasarkan paket
-function loadQuestions(packageNumber) {
-    // Pilihan soal berdasarkan paket
-    if (packageNumber === "1") {
-        questions = questionsPackage1;
-    } else if (packageNumber === "2") {
-        questions = questionsPackage2;
-    } else if (packageNumber === "3") {
-        questions = questionsPackage3;
-    } else if (packageNumber === "4") {
-        questions = questionsPackage4;
-    } else if (packageNumber === "5") {
-        questions = questionsPackage5;
-    } else if (packageNumber === "hot1") {
-        questions = questionsPackageHOT1;
-    }
-}
-
-let currentQuestion = 0; // Soal saat ini
-let score = 0; // Skor pengguna
-let userAnswers = []; // Array untuk menyimpan jawaban pengguna
-
-// Fungsi untuk menampilkan pertanyaan
-function showQuestion() {
-    const quizContainer = document.getElementById('quiz');
-    const question = questions[currentQuestion];
-
-    // Huruf untuk opsi jawaban (A, B, C, D, E)
-    const answerLabels = ['A', 'B', 'C', 'D', 'E'];
-
-    // Generate tampilan soal dengan penomoran otomatis
-    quizContainer.innerHTML = `
-        <h2>Soal ${currentQuestion + 1}: ${question.question}</h2>
-        ${question.answers.map((answer, index) => `
-            <label>
-                <input type="radio" name="answer" value="${index}" 
-                ${userAnswers[currentQuestion] === index ? "checked" : ""}>
-                <strong>${answerLabels[index]}.</strong> ${answer}
-            </label><br>
-        `).join('')}
-    `;
-
-    // Tampilkan tombol yang sesuai berdasarkan soal
-    const submitButton = document.getElementById('submit');
-    const nextButton = document.getElementById('next');
-    const prevButton = document.getElementById('prev');
-
-    if (currentQuestion === questions.length - 1) {
-        submitButton.style.display = "inline-block";
-        nextButton.style.display = "none";
-    } else {
-        submitButton.style.display = "none";
-        nextButton.style.display = "inline-block";
-    }
-
-    prevButton.style.display = currentQuestion > 0 ? "inline-block" : "none";
-
-    // Tambahkan event listener ke radio input
-    const answerInputs = document.querySelectorAll('input[name="answer"]');
-    answerInputs.forEach(input => {
-        input.addEventListener('change', saveAnswer); // Simpan jawaban otomatis saat berubah
-    });
-
-    // Perbarui status tombol navigasi
-    updateNavigationButtons();
-}
+	<!-- Halaman Hasil -->
+	<div id="result-container" style="display: none;" class="quiz-container">
+	    <h2>Hasil Kuis</h2>
+	    <p id="final-score" style="font-size: 20px;"></p>
+	<button onclick="restartQuiz()">Mulai Ujian Lagi</button>
+	</div>
 
 
-// Fungsi untuk navigasi ke soal berikutnya
-function nextQuestion() {
-    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-    if (!selectedAnswer) {
-        alert("Pilih jawaban terlebih dahulu!");
-        return;
-    }
-
-    // Simpan jawaban pengguna
-    userAnswers[currentQuestion] = parseInt(selectedAnswer.value);
-
-    // Pindah ke soal berikutnya
-    currentQuestion++;
-    showQuestion();
-    updateNavigationButtons(); // Tambahkan ini
-}
-
-// Fungsi untuk navigasi ke soal sebelumnya
-function prevQuestion() {
-    if (currentQuestion > 0) {
-        currentQuestion--;
-        showQuestion();
-        updateNavigationButtons(); // Tambahkan ini
-    }
-}
-
-// Fungsi untuk submit kuis
-function submitQuiz() {
-    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-    if (!selectedAnswer) {
-        alert("Pilih jawaban terlebih dahulu sebelum mengirim!");
-        return;
-    }
-
-    // Simpan jawaban terakhir ke array userAnswers
-    userAnswers[currentQuestion] = parseInt(selectedAnswer.value);
-
-    // Hitung skor akhir
-    score = 0;
-    questions.forEach((q, index) => {
-        if (userAnswers[index] === q.correct) {
-            score += 5;
-        }
-    });
-
-    // Sembunyikan halaman kuis dan tampilkan halaman hasil
-    document.getElementById("quiz-container").style.display = "none";
-    document.getElementById("result-container").style.display = "block"; // Tampilkan hasil
-
-    // Tampilkan hasil skor
-    document.getElementById("final-score").innerText = `Skor Anda: ${score} dari ${questions.length * 5}`;
-}
-
-// Fungsi untuk membuat tombol navigasi berdasarkan jumlah soal
-function createNavigationButtons() {
-    const questionNavigation = document.getElementById('question-navigation');
-    questionNavigation.innerHTML = ''; // Hapus tombol navigasi sebelumnya
-
-    // Pastikan tombol navigasi dibuat berdasarkan panjang array questions
-    for (let i = 0; i < questions.length; i++) {
-        const button = document.createElement('button');
-        button.className = 'question-btn';
-        button.textContent = i + 1; // Angka soal
-        button.onclick = () => goToQuestion(i); // Navigasi ke soal yang dipilih
-        questionNavigation.appendChild(button);
-    }
-}
-
-
-// Fungsi untuk memperbarui status tombol navigasi
-function updateNavigationButtons() {
-    const buttons = document.querySelectorAll('.question-btn');
-    buttons.forEach((button, index) => {
-        button.classList.remove('active');
-        button.classList.remove('answered');
-
-        if (userAnswers[index] !== undefined) {
-            button.classList.add('answered'); // Tandai soal yang sudah dijawab
-        }
-
-        if (index === currentQuestion) {
-            button.classList.add('active'); // Tandai soal yang sedang ditampilkan
-        }
-    });
-}
-
-function goToQuestion(questionIndex) {
-    currentQuestion = questionIndex;
-    showQuestion();
-    updateNavigationButtons(); // Tambahkan ini
-}
-
-// Timer Script
-let totalTime = 90 * 60; // 90 menit dalam detik
-const timerElement = document.getElementById('timer');
-
-// Fungsi untuk memulai timer
-function startTimer() {
-    // Deteksi perangkat berdasarkan ukuran layar
-    const isMobile = window.innerWidth <= 768; // HP jika lebar layar <= 768px
-    const interval = isMobile ? 1000 : 1000; // 2 detik di HP, 1 detik di Laptop
-
-    const timerInterval = setInterval(function () {
-        const minutes = Math.floor(totalTime / 60);
-        const seconds = totalTime % 60;
-
-        // Menampilkan timer dengan format menit:detik
-        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-
-        totalTime--;
-
-        // Ketika waktu habis
-        if (totalTime < 0) {
-            clearInterval(timerInterval);
-            finishQuiz(); // Ganti dengan tampilan hasil
-        }
-    }, interval); // Gunakan interval sesuai perangkat
-}
-
-
-// Fungsi untuk memulai ulang kuis
-function restartQuiz() {
-    // Reset semua data dan tampilkan form login lagi
-    currentQuestion = 0;
-    score = 0;
-    totalTime = 90 * 60; // Reset timer
-    userAnswers = []; // Reset jawaban pengguna
-
-    // Menyembunyikan halaman hasil dan menampilkan halaman login
-    document.getElementById("result-container").style.display = "none"; // Sembunyikan halaman hasil
-    document.getElementById("quiz-container").style.display = "none"; // Sembunyikan halaman kuis
-    document.getElementById("login-container").style.display = "flex"; // Tampilkan halaman login dengan posisi benar
-}
-
-function saveAnswer() {
-    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-    if (selectedAnswer) {
-        userAnswers[currentQuestion] = parseInt(selectedAnswer.value); // Simpan jawaban
-        updateNavigationButtons(); // Perbarui tampilan tombol navigasi
-    }
-}
-
-let startX = 0;
-
-function enableSwipeNavigation() {
-    const questionContainer = document.querySelector('.question-container'); // Container soal
-
-    questionContainer.addEventListener('touchstart', (e) => {
-        startX = e.touches[0].clientX; // Catat posisi awal sentuhan
-    });
-
-    questionContainer.addEventListener('touchmove', (e) => {
-        const deltaX = e.touches[0].clientX - startX;
-
-        if (deltaX > 50) {
-            // Geser ke kanan (soal sebelumnya)
-            goToPreviousQuestion();
-        } else if (deltaX < -50) {
-            // Geser ke kiri (soal berikutnya)
-            goToNextQuestion();
-        }
-    });
-}
-
-// Aktifkan swipe untuk layar kecil
-if (window.innerWidth <= 768) {
-    enableSwipeNavigation();
-}
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
