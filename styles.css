@@ -236,6 +236,7 @@ footer {
 
     .login-container {
         background-size: contain; /* Gambar menyesuaikan ukuran layar kecil */
+        background-attachment: scroll; /* Nonaktifkan fixed untuk HP */
     }
 
     h1, h2 {
