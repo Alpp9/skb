@@ -111,6 +111,15 @@ function prevQuestion() {
 
 // Fungsi untuk submit kuis
 function submitQuiz() {
+    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    if (!selectedAnswer) {
+        alert("Pilih jawaban terlebih dahulu sebelum mengirim!");
+        return;
+    }
+
+    // Simpan jawaban terakhir ke array userAnswers
+    userAnswers[currentQuestion] = parseInt(selectedAnswer.value);
+
     // Hitung skor akhir
     score = 0;
     questions.forEach((q, index) => {
@@ -126,6 +135,7 @@ function submitQuiz() {
     // Tampilkan hasil skor
     document.getElementById("final-score").innerText = `Skor Anda: ${score} dari ${questions.length * 5}`;
 }
+
 
 // Timer Script
 let totalTime = 90 * 60; // 90 menit dalam detik
