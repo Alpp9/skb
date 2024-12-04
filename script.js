@@ -49,6 +49,16 @@ function loadQuestions(packageNumber) {
         questions = questionsPackage4;
     } else if (packageNumber === "5") {
         questions = questionsPackage5;
+    } else if (packageNumber === "6") {
+        questions = questionsPackage6;
+    } else if (packageNumber === "7") {
+        questions = questionsPackage7;
+    } else if (packageNumber === "8") {
+        questions = questionsPackage8;
+    } else if (packageNumber === "9") {
+        questions = questionsPackage9;
+    } else if (packageNumber === "10") {
+        questions = questionsPackage10;
     } else if (packageNumber === "hot1") {
         questions = questionsPackageHOT1;
     }
