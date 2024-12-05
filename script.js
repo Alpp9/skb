@@ -140,7 +140,6 @@ function prevQuestion() {
     }
 }
 
-// Fungsi untuk submit kuis
 function submitQuiz() {
     const selectedAnswer = document.querySelector('input[name="answer"]:checked');
     if (!selectedAnswer) {
@@ -151,21 +150,64 @@ function submitQuiz() {
     // Simpan jawaban terakhir ke array userAnswers
     userAnswers[currentQuestion] = parseInt(selectedAnswer.value);
 
-    // Hitung skor akhir
+    // Hitung skor akhir dan kumpulkan data soal
     score = 0;
+    const questionResults = [];
+    const answerLabels = ['A', 'B', 'C', 'D', 'E']; // Label untuk jawaban
+
     questions.forEach((q, index) => {
-        if (userAnswers[index] === q.correct) {
-            score += 5;
-        }
+        const isCorrect = userAnswers[index] === q.correct;
+        if (isCorrect) score += 5;
+
+        questionResults.push({
+            number: index + 1,
+            question: q.question,
+            answers: q.answers,
+            correctAnswer: q.correct,
+            userAnswer: userAnswers[index],
+            isCorrect: isCorrect,
+        });
     });
 
-    // Sembunyikan halaman kuis dan tampilkan halaman hasil
+    // Sembunyikan halaman kuis dan tampilkan hasil
     document.getElementById("quiz-container").style.display = "none";
-    document.getElementById("result-container").style.display = "block"; // Tampilkan hasil
+    document.getElementById("result-container").style.display = "block";
 
-    // Tampilkan hasil skor
+    // Tampilkan skor
     document.getElementById("final-score").innerText = `Skor Anda: ${score} dari ${questions.length * 5}`;
+
+    // Tampilkan tombol nomor soal
+    const questionSummary = document.getElementById("question-summary");
+    questionSummary.innerHTML = ""; // Reset konten sebelumnya
+    questionResults.forEach(result => {
+        const button = document.createElement("button");
+        button.textContent = result.number;
+        button.className = `question-btn ${result.isCorrect ? "correct" : "wrong"}`;
+        button.onclick = () => showQuestionDetails(result);
+        questionSummary.appendChild(button);
+    });
 }
+
+
+function showQuestionDetails(result) {
+    const detailsContainer = document.getElementById("question-details");
+    const answerLabels = ['A', 'B', 'C', 'D', 'E']; // Huruf untuk opsi jawaban
+
+    detailsContainer.innerHTML = `
+        <h4>Soal ${result.number}: ${result.question}</h4>
+        <ul>
+            ${result.answers
+                .map((answer, index) => `
+                <li class="${index === result.correctAnswer ? 'correct' : index === result.userAnswer ? 'wrong' : ''}">
+                    <strong>${answerLabels[index]}.</strong> 
+                    ${index === result.userAnswer ? '<strong>(Jawaban Anda)</strong> ' : ''}
+                    ${answer}
+                </li>
+            `).join("")}
+        </ul>
+    `;
+}
+
 
 // Fungsi untuk membuat tombol navigasi berdasarkan jumlah soal
 function createNavigationButtons() {
