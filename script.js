@@ -196,7 +196,7 @@ function showQuestionDetails(result) {
     const answerLabels = ['A', 'B', 'C', 'D', 'E']; // Huruf untuk opsi jawaban
 
     detailsContainer.innerHTML = `
-        <h4>Soal ${result.number}: ${result.question}</h4>
+        <h4>${result.number}. ${result.question}</h4>
         <ul>
             ${result.answers
                 .map((answer, index) => `
