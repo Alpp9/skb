@@ -141,17 +141,22 @@ h1 {
     margin-bottom: 30px; /* Menambahkan jarak antar item jawaban */
 }
 
+/* Answers Section */
 .answers label {
-    display: block;
-    padding: 15px 20px; /* Menambahkan lebih banyak padding untuk label */
-    background: #f5f5f5; /* Warna abu-abu terang */
+    display: block; /* Memastikan label berada dalam satu baris terpisah */
+    padding: 15px 20px; /* Menambahkan padding agar lebih nyaman */
+    background: #f5f5f5; /* Warna latar belakang abu-abu terang */
     border-radius: 5px;
     border: 1px solid #ddd;
     cursor: pointer;
     transition: all 0.3s ease;
     font-size: 16px;
     margin-bottom: 15px; /* Memberikan jarak antar label */
+    word-wrap: break-word; /* Membiarkan kata panjang terputus dan pindah ke baris baru */
+    overflow-wrap: break-word; /* Alternatif untuk memastikan kata panjang terputus */
+    white-space: normal; /* Membiarkan teks membungkus secara otomatis */
 }
+
 
 .answers label:hover {
     background: #e3f2fd; /* Hover biru lembut */
@@ -318,8 +323,19 @@ select:focus {
     text-align: center;
 }
 
+.question-btn.correct {
+    background-color: #00B200; /* Hijau terang untuk benar */
+    border: 2px solid #00B200;
+}
+
+.question-btn.wrong {
+    background-color: #dc3545; /* Merah untuk salah */
+    border: 2px solid #dc3545;
+}
+
 .question-btn:hover {
     background-color: #0056b3; /* Warna lebih gelap saat hover */
+    opacity: 0.9; 
     border-color: #0056b3; /* Border warna gelap */
     transform: translateY(-2px); /* Efek naik sedikit saat hover */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Bayangan lebih besar saat hover */
@@ -347,4 +363,43 @@ select:focus {
 .answered {
     background-color: #28a745; /* Tetap warna hijau untuk tombol yang sudah dijawab */
     color: white;
+}
+
+/* Detail soal */
+#question-details {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    text-align: left; /* Teks rata kiri */
+}
+
+#question-details h4 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 18px;
+}
+
+#question-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+#question-details li {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin: 5px 0;
+    background-color: #fff;
+}
+
+#question-details li.correct {
+    border-color: #00B200;
+    color: #00B200;
+}
+
+#question-details li.wrong {
+    border-color: #FF4033;
+    color: #FF4033;
 }
