@@ -305,9 +305,9 @@ select:focus {
 }
 
 .question-btn {
-    background-color: #007bff; /* Warna biru modern */
+    background-color: #42A5F5; /* Warna biru modern */
     color: white;
-    border: 2px solid #007bff; /* Border dengan warna biru */
+    border: 2px solid #42A5F5; /* Border dengan warna biru */
     border-radius: 8px; /* Rounded corners sedikit saja agar tetap terlihat kotak */
     padding: 8px 12px; /* Ukuran tombol kecil tapi tetap proporsional */
     margin: 0 6px; /* Jarak antar tombol lebih kecil untuk kerapian */
@@ -334,9 +334,9 @@ select:focus {
 }
 
 .question-btn:hover {
-    background-color: #0056b3; /* Warna lebih gelap saat hover */
+    background-color: #1E88E5; /* Warna lebih gelap saat hover */
     opacity: 0.9; 
-    border-color: #0056b3; /* Border warna gelap */
+    border-color: #1E88E5; /* Border warna gelap */
     transform: translateY(-2px); /* Efek naik sedikit saat hover */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); /* Bayangan lebih besar saat hover */
 }
