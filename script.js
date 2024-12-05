@@ -77,16 +77,18 @@ function showQuestion() {
     const answerLabels = ['A', 'B', 'C', 'D', 'E'];
 
     // Generate tampilan soal dengan penomoran otomatis
-    quizContainer.innerHTML = `
-        <h2>Soal ${currentQuestion + 1}: ${question.question}</h2>
-        ${question.answers.map((answer, index) => `
-            <label>
-                <input type="radio" name="answer" value="${index}" 
-                ${userAnswers[currentQuestion] === index ? "checked" : ""}>
-                <strong>${answerLabels[index]}.</strong> ${answer}
-            </label><br>
-        `).join('')}
-    `;
+// Generate tampilan soal dengan penomoran otomatis
+   quizContainer.innerHTML = `
+       <h2>${currentQuestion + 1}. ${question.question}</h2>
+       ${question.answers.map((answer, index) => `
+           <label>
+               <input type="radio" name="answer" value="${index}" 
+               ${userAnswers[currentQuestion] === index ? "checked" : ""}>
+               <strong>${answerLabels[index]}.</strong> ${answer}
+           </label><br>
+       `).join('')}
+   `;
+
 
     // Tampilkan tombol yang sesuai berdasarkan soal
     const submitButton = document.getElementById('submit');
