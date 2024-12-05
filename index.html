@@ -51,12 +51,17 @@
     </div>
 
 	<!-- Halaman Hasil -->
-	<div id="result-container" style="display: none;" class="quiz-container">
-	    <h2>Hasil Kuis</h2>
-	    <p id="final-score" style="font-size: 20px;"></p>
-	<button onclick="restartQuiz()">Mulai Ujian Lagi</button>
-	</div>
-
+    <div id="result-container" style="display: none;" class="quiz-container">
+    	<h2>Hasil Kuis</h2>
+    	<p id="final-score" style="font-size: 20px;"></p>
+    
+    	<h3>Kunci Jawaban</h3>
+    	<div id="question-summary" class="question-navigation"></div> <!-- Tempat tombol nomor soal -->
+    
+    	<div id="question-details" style="margin-top: 20px; text-align: left;"></div>
+    
+    	<button onclick="restartQuiz()">Mulai Ujian Lagi</button>
+    </div>
 
     <script src="questions.js"></script>
     <script src="script.js"></script>
